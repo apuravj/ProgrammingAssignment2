@@ -1,0 +1,46 @@
+# Create a function that caches the square of a number
+makeCachingSquare <- function() {
+  # Initialize an empty cache
+  cache <- NULL
+  
+  # Define the function to calculate and cache the square
+  calculateSquare <- function(x) {
+    if (!is.null(cache) && identical(cache$input, x)) {
+      cat("Fetching square from cache\n")
+      return(cache$result)
+    } else {
+      cat("Calculating square and caching\n")
+      result <- x^2
+      cache <<- list(input = x, result = result)
+      return(result)
+    }
+  }
+  
+  # Define a function to clear the cache
+  clearCache <- function() {
+    cat("Clearing the cache\n")
+    cache <<- NULL
+  }
+  
+  # Return a list containing the calculateSquare and clearCache functions
+  return(list(calculateSquare = calculateSquare, clearCache = clearCache))
+}
+
+# Example usage
+# Create a caching square function
+cachingSquareFunctions <- makeCachingSquare()
+
+# Use the calculateSquare function to calculate and cache the square
+result1 <- cachingSquareFunctions$calculateSquare(5)
+print(paste("Square 1:", result1))
+
+# Use the calculateSquare function again (fetch from cache)
+result2 <- cachingSquareFunctions$calculateSquare(5)
+print(paste("Square 2:", result2))
+
+# Clear the cache
+cachingSquareFunctions$clearCache()
+
+# Use the calculateSquare function again (recalculate and cache)
+result3 <- cachingSquareFunctions$calculateSquare(5)
+print(paste("Square 3:", result3))
